@@ -22,6 +22,8 @@ Some folders on specific topics may require their own environments:
 
 - A different environment is used in the [tf-keras-examples](tf-keras-examples) folder; you can activate in a similar way. See also the local [README.md](tf-keras-examples/README.md) for more info on optimising the installation for GPU acceleration.
 
+- The [hpc-examples](hpc-examples) follows examples from [High performance computing in python](https://books-library.net/files/books-library.net-11301954Yq8A7.pdf).
+
 ## Documentation and testing
 
 - [doctest](docs/documentation.md)
