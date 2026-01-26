@@ -1,0 +1,6 @@
+# Sphinx==4.1.1
+ipython
+line_profiler
+snakeviz
+memory_profiler 
+psutil
