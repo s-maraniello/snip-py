@@ -26,7 +26,39 @@ This repository is organized into separate example collections, each with its ow
 
 ### Environment Setup
 
-Each folder has its own `pyproject.toml` file. Navigate to the folder you're interested in and set up the environment:
+Each folder has its own `pyproject.toml` and `Makefile`. You can set up environments using either Make or uv directly.
+
+#### Using Make (Recommended)
+
+```sh
+# Setup all environments at once
+make setup
+
+# Or setup a specific environment
+make setup-datascience
+make setup-core-python
+make setup-hpc
+make setup-tensorflow
+
+# Clean all environments
+make clean
+
+# Clean a specific environment
+make clean-datascience
+```
+
+From within any example folder:
+
+```sh
+cd examples-datascience
+make setup          # Set up the environment
+make jupyter        # Start Jupyter notebook
+make shell          # Open Python shell
+make clean          # Clean up .venv and cache files
+make help           # See all available commands
+```
+
+#### Using uv directly
 
 ```sh
 # Example: Setting up the data science environment
@@ -41,20 +73,12 @@ uv run jupyter notebook
 uv run python your_script.py
 ```
 
-Repeat for any other folder you want to work with:
-
-```sh
-cd examples-core-python  # or examples-hpc, or examples-tensorflow
-uv sync
-source .venv/bin/activate
-```
-
 ### Running Jupyter Notebooks
 
 To work with Jupyter notebooks in VS Code:
 
 1. Install the Python and Jupyter extensions in VS Code (they're safe and won't interfere with uv)
-2. Navigate to the relevant folder and sync: `cd examples-datascience && uv sync`
+2. Navigate to the relevant folder and setup: `cd examples-datascience && make setup`
 3. Open a notebook in VS Code
 4. Click "Select Kernel" in the top-right → "Python Environments" → choose the `.venv/bin/python` from the folder
 
@@ -62,13 +86,14 @@ Alternatively, run Jupyter from the command line:
 
 ```sh
 cd examples-datascience
-uv run jupyter notebook
+make jupyter
+# Or: uv run jupyter notebook
 ```
 
 ### Notes
 
 - The [examples-core-python](examples-core-python) folder contains pure Python examples (mostly inspired from [Fluent Python](https://github.com/fluentpython/example-code-2e)) with minimal dependencies
-- The [examples-tensorflow](examples-tensorflow) folder has GPU acceleration notes - see the local [README.md](examples-tensorflow/README.md)
+- The [examples-tensorflow](examples-tensorflow) focuses on tensorflow and vertex AI - see the local [README.md](examples-tensorflow/README.md)
 - The [examples-hpc](examples-hpc) folder follows examples from [High Performance Computing in Python](https://books-library.net/files/books-library.net-11301954Yq8A7.pdf)
 
 ## Documentation and testing
