@@ -1,0 +1,10 @@
+[project]
+name = "snip-py-core-python"
+version = "0.1.0"
+description = "Core Python language examples - sequences, dicts, dataclasses, concurrency, etc."
+requires-python = ">=3.11"
+dependencies = [
+    # Minimal dependencies for running Jupyter notebooks
+    "ipykernel>=6.29.5",
+    "ipython>=9.3.0",
+]
