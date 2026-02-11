@@ -2,7 +2,7 @@
 name = "snip-py-tensorflow"
 version = "0.1.0"
 description = "TensorFlow and Keras examples for machine learning"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
 dependencies = [
     "absl-py==2.2.2",
     "asttokens==3.0.0",

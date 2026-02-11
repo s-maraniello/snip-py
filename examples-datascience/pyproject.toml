@@ -2,7 +2,7 @@
 name = "snip-py-datascience"
 version = "0.1.0"
 description = "Data science examples with pandas, plotly, seaborn, and scikit-learn"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
     "appnope==0.1.4",
     "asttokens==2.4.1",
