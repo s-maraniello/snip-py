@@ -1,0 +1,43 @@
+{
+  "folders": [
+    {
+      "name": "📁 Root",
+      "path": "."
+    },
+    {
+      "name": "🐍 Core Python",
+      "path": "examples-core-python"
+    },
+    {
+      "name": "📊 Data Science",
+      "path": "examples-datascience"
+    },
+    {
+      "name": "⚡ HPC",
+      "path": "examples-hpc"
+    },
+    {
+      "name": "🤖 TensorFlow",
+      "path": "examples-tensorflow"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/.DS_Store": true
+    },
+    "search.exclude": {
+      "**/.venv": true,
+      "**/node_modules": true
+    },
+    "python.terminal.activateEnvironment": true,
+    "jupyter.kernels.filter": []
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-toolsai.jupyter"
+    ]
+  }
+}

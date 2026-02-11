@@ -24,6 +24,8 @@ This repository is organized into separate example collections, each with its ow
 - [examples-hpc](examples-hpc) - High Performance Computing examples
 - [examples-tensorflow](examples-tensorflow) - TensorFlow and Keras for machine learning
 
+> **VS Code Workspace Setup**: This project is configured to work seamlessly with VS Code using a multi-folder workspace (`snip-py.code-workspace`). Each folder has its own Python environment that VS Code automatically detects based on your current location. This setup ensures seamless Jupyter notebook integration with multiple Python environments. **When prompted by VS Code to open the workspace**, select **"Open Workspace"** to enable this functionality.
+
 ### Environment Setup
 
 Each folder has its own `pyproject.toml` and `Makefile`. You can set up environments using either Make or uv directly.
