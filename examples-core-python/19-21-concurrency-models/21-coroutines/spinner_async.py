@@ -5,6 +5,7 @@
 # https://mail.python.org/pipermail/python-list/2009-February/675659.html
 
 # tag::SPINNER_ASYNC_TOP[]
+from ast import If
 import asyncio
 import itertools
 import time
@@ -14,8 +15,8 @@ async def spin(msg: str) -> None:
     """
     An async function that "runs forever" until it is cancelled. It prints a message with a spinner animation.
 
-    Note that the `spin` function is not a thread, but a coroutine. It will run in the same thread as other coroutines,
-    but it will only run when the GIL is released (e.g., when we await something). 
+    XXX. The `spin` function is not a thread, but a coroutine. It will run in the same thread as other coroutines,
+    but it will only run when the control is delegated to the event loop (e.g., when we await something). 
     """
     # w.r.t. threading and multiprocessing, we don't need to have a 3rd variable to monitor the state of the `slow`
     # function.
@@ -25,10 +26,12 @@ async def spin(msg: str) -> None:
         print(status, flush=True, end='')
 
         try:
-            # Release the GIL and let other coroutines run. 
+            # Delegate control to the event loop (which can let other coroutines run). 
             # In real apps, this would be: await client.get(url), await db.query(), etc.
             # XXX. If we were to use time.sleep, we would block this function, including the for loop and the spinner 
-            # animation! However, the rest of the code in main would continue to run.
+            # animation! This is because we would not be relesing control of the execution to the event loop, and we would
+            # be waiting for the time to elapse.
+            # XXX. Importantly, this for loop would never terminate.
             # await time.sleep(.15)
             await asyncio.sleep(.15)
         except asyncio.CancelledError:
@@ -63,21 +66,25 @@ async def supervisor() -> int:
     # This is a native coroutine (await). The event loop is already created when we call this function.
 
     # We create a task that controls the spin coroutine. The spin function is already started at this point.
-    # GIL will not block execution waiting for this function to complete (also because this function NEVER completes).
-    # So we go to the next line of code.
-    # Note: if we had called `await spin('thinking!')` instead, the code would have blocked until the completion of
-    # the spin function, which in this case is never.
-    # Note: if we had called just `spin('thinking!')` instead, the code would have started the coroutine, but since
-    # it was never awaited, it would have never executed.
+    # XXX. The execution is managed by the event.loop, that will progress on this task while also progressing on other coroutines. 
+    # XXX. As such, we can nmove to the next lines of code.
+    # XXX. If we had called `await spin('thinking!')` instead, the code would have blocked until the completion of
+    # the spin function, which in this case is never. This is because we would have told the event loop to complete the
+    # execution of the spin function before moving to the next line of code.
+    # XXX. if we had called just `spin('thinking!')` instead, the code would have started the coroutine, but since
+    # it was never awaited anywhere else in the code, the event loop would have never bothered executing it.
     spinner = asyncio.create_task(spin('thinking!'))
     print(f'spinner object: {spinner}')
     
-    # We now call a slow function that will run in the current thread whenever the GIL is released. While for the
-    # spinner function we did not ask to wait for completion before going to the next line, here we ask to await.
-    # Note: if you replace `result = await slow()` with `result = slow()`, the code will crash because the coroutine
-    # was never awaited. If you had not defined slow as a coroutine, it would continue. In this case, however, you
-    # will not be able to use asyncio.sleep. Instead, you would need to use time.sleep, which will block the whole
-    # python process (including `spinner`, meaning that the progress update will block).
+
+    # Delegate
+    # 
+    # We now delegate execution to another corotutine. The execution will block until the `slow` function completes. 
+    # XXX. The execution of this function will block until `slow` completes. 
+    # XXX. if you replace `result = await slow()` with `result = slow()`, the code will crash because the coroutine
+    # was never awaited. 
+    #     * If we redefined `slow` not to be a coroutine, instead, slow would be executed, but blocking the whole 
+    #       execution.
     result = await slow()
     # result = slow()
 
@@ -90,5 +97,3 @@ async def supervisor() -> int:
 
 if __name__ == '__main__':
     main()
-    
-# end::SPINNER_ASYNC_START[]
